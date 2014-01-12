@@ -1,0 +1,17 @@
+#!/bin/bash
+_ts=$( date '+%s' )
+
+# Temporarely backup a file by renaming it
+function backup(){
+    _original="$1"
+    _backup="$_original.$_ts"
+    [ -e "$_original" ] && mv "$_original" "$_backup"
+
+    # Listen to EXIT signal to restore the file
+    trap 'restore' EXIT
+}
+
+# Restore the renamed file
+function restore() {
+    [ -e "$_backup" ] && mv "$_backup" "$_original"
+}

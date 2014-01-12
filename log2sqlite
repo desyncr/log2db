@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Log file to pipe from
+fifo=/var/log/apache2/error.log
+
+# Log functions (db wrappers)
+source log
+# Helper functions to backup and restore log files
+source helpers
+
+# Backup old log file (rename) && replace with fifo
+backup $fifo && mkfifo $fifo
+
+# Read from fifo and pass it's contents to the logger function
+tail -f $fifo | while read log; do
+    # In a perfect world the log line should be parsed
+    log "$log"
+done
+
+# Done (trap EXIT restore the backup as if nothing happened)
+

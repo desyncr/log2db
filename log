@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# SQLite database name (filename)
+db=test.db
+
+# Table
+table=logs
+
+# Basic squema with just one column
+schema='content'
+
+# Helper function to insert new rows into the db
+function log() {
+    sqlite3 -line "$db" "INSERT INTO $table ($schema) VALUES ('$1')"
+}
+
+# Helper function to create the db schema
+function create() {
+    sqlite3 -line "$1" "CREATE TABLE $2 ($3);"
+}
+
+# If the db doesn't exists already it's created
+[ ! -e "$db" ] && create "$db" "$table" "$schema"

@@ -4,5 +4,4 @@ These scripts allows to pass logs through a named pipe in order to pre-process t
 
 ## Usage
 
-Configure log2db `fifo` variable to point to the log file you want to pipe.
-
+    log2sqlite /var/log/apache2/error.log
